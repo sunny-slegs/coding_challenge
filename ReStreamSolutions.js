@@ -125,7 +125,7 @@ elevatorStates = [
        }
    }
 
-   // takes an array of strings, number, string
+   // takes an array of strings, number, string, number
    function findPaths(state, elevator, paths, time) {
         let path = "";
         console.log(path)
