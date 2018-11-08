@@ -1,7 +1,16 @@
+/* My strategy to solve this problem is to break up each state into an array of floor strings.  
+Then I want to use recursion to find all the possible paths that can be taken between t = 1 
+and t= n.  Once I have an array with all the possibilites I will check if any of them match 
+the required ending floor and time and return that path. */
+
+/* The problem that I'm running into is that I can't track each of the possiblities seperately.  
+My recursive function is only adding onto one variable instead of keeping track of multiple ones. 
+I also have an infinite loop because I don't have a base case that ends the recursive 
+function.  With more time, I will add a base case so that the recursion ends and figure out how to 
+get each "path" variable to be added to a "paths" array. */
 
    function findElevatorPath(elevatorStates, startingElevator, finalDestination) {
-
-        
+ 
         // split each state into an array of floor strings
         const statesArr = elevatorStates.map(state => {
             return(state.split("\n"))
@@ -21,15 +30,16 @@
         const startingFloor = findFloor(statesArr[0], startingElevator);
         const finalFloorStr = statesArr[finalTime][indexInStatesArr[finalFloor]];
         const floorStr = statesArr[0][indexInStatesArr[startingFloor]];
+        const paths = [];
         // check to make sure there is a state that has an elevator at the correct floor at the specified time
         if (!(finalFloorStr.includes("A") || finalFloorStr.includes("B") || finalFloorStr.includes("C") || finalFloorStr.includes("D"))) {
             return "NO POSSIBLE SOLUTION"
         // recursively find all possible paths 
         } else {
             findPaths(statesArr, finalTime, floorStr, startingElevator, indexInStatesArr) 
-        }
-        
+        } 
    }
+   
    // floor = string
    function findElevator(floor) {
        console.log(floor)
@@ -63,7 +73,6 @@
    // state = array of strings, finalTime = number, floorStr = string, startingElevaotr = string, index = number
    function findPaths(state, finalTime, floorStr, startingElevator, index) {
     let time = 0;
-    let paths = [];
     let path = "";
     while (time != finalTime) {
         let elevator = findElevator(floorStr)
@@ -74,6 +83,7 @@
             let i = index[nextFloor]
             floorStr = state[time + 1][i];
         } else {
+            // use recursion to find each available path
            elevator.split("").forEach(elevator => {
                path += elevator;
                const nextFloor = findFloor(state[time + 1], elevator);
@@ -84,7 +94,6 @@
         }
         time++
     }
-    console.log("path", path)
     return path;
 }
 
